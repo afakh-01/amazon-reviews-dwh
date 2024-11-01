@@ -1,0 +1,12 @@
+name: 'warehouse'
+version: '1.0'
+config-version: 2
+
+profile: 'default'
+
+models:
+  warehouse:
+    staging:
+      +schema: staging         
+    marts:
+      +schema: marts          

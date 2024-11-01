@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: airflow_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  airflow-webserver:
+    build:
+      context: ./airflow
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:postgres@postgres:5432/airflow_db
+      - AIRFLOW__WEBSERVER__SECRET_KEY=my_secret_key
+      - AIRFLOW__WEBSERVER__BASE_URL=http://localhost:8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - ./airflow:/opt/airflow
+      - ./data:/data
+      - ./dbt:/opt/airflow/dbt
+      - /etc/localtime:/etc/localtime:ro
+    entrypoint: ["bash", "-c", "airflow db init && /opt/airflow/create_airflow_user.sh && airflow webserver"]
+
+  airflow-scheduler:
+    build:
+      context: ./airflow
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:postgres@postgres:5432/airflow_db
+      - AIRFLOW__WEBSERVER__SECRET_KEY=my_secret_key
+    depends_on:
+      - postgres
+      - airflow-webserver
+    volumes:
+      - ./airflow:/opt/airflow
+      - ./data:/data
+      - ./dbt:/opt/airflow/dbt
+      - /etc/localtime:/etc/localtime:ro
+    entrypoint: ["bash", "-c", "airflow db init && airflow scheduler"]
+
+volumes:
+  postgres_data:

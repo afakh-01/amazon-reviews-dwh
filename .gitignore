@@ -1,0 +1,46 @@
+# Ignore Python cache and bytecode files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignore Docker and build-related files
+docker-compose.override.yml
+*.env
+**/dbt/logs/
+**/dbt/target/
+*.log
+*.pid
+
+# Ignore Airflow-related files and logs
+logs/
+dags/__pycache__/
+airflow-webserver.pid
+airflow-scheduler.pid
+airflow-worker.pid
+airflow-triggerer.pid
+**/airflow/dbt/logs/
+airflow/webserver_config.py
+
+# Ignore dbt generated files
+dbt_modules/
+dbt/dbt_packages/
+dbt/.user.yml
+dbt/package-lock.yml
+target/
+logs/
+
+# Ignore database and data files
+postgres_data/
+data/
+*.db
+*.sqlite
+
+# Ignore Jupyter Notebooks checkpoints if any
+.ipynb_checkpoints
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

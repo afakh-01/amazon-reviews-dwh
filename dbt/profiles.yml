@@ -1,0 +1,14 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgres
+      user: postgres
+      password: postgres
+      dbname: warehouse
+      schema: public
+      threads: 1
+      keepalives_idle: 0
+      port: 5432
+      log_path: /tmp/dbt.log
