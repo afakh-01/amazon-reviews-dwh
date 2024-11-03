@@ -20,10 +20,10 @@ max_review_date_key AS (
 
 review_with_fk AS (
     SELECT
-        {{ dbt_utils.generate_surrogate_key(['r.reviewer_id', 'r.asin', 'r.review_date']) }} AS review_key,  -- Composite key
-        p.product_key,                          
-        d.date_key AS review_date_key,          
-        r.rating                                
+        CAST({{ dbt_utils.generate_surrogate_key(['r.reviewer_id', 'r.asin', 'r.review_date']) }} AS TEXT) AS review_key,  
+        CAST(p.product_key AS TEXT) AS product_key,                         
+        CAST(d.date_key AS INTEGER) AS review_date_key,          
+        CAST(r.rating AS NUMERIC) AS rating                                
     FROM source_data r
     LEFT JOIN {{ ref('dim_products') }} p ON r.asin = p.asin
     LEFT JOIN {{ ref('dim_date') }} d ON r.review_date = d.date

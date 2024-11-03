@@ -10,15 +10,15 @@ WITH source AS (
 
 renamed AS (
     SELECT
-        metadataid AS metadata_id,
-        asin,
-        salesrank AS sales_rank,
-        imurl AS im_url,
-        (regexp_matches(categories, E'\\[\\[\'([^\']+)\'', 'g'))[1] AS category,
-        title,
-        description,
-        price,
-        brand
+        CAST(metadataid AS INTEGER) AS metadata_id,
+        CAST(asin AS TEXT) AS asin,                         
+        CAST(salesrank AS TEXT) AS sales_rank,           
+        CAST(imurl AS TEXT) AS im_url,                     
+        (regexp_matches(categories, E'\\[\\[\'([^\']+)\'', 'g'))[1] AS category,  
+        CAST(title AS TEXT) AS title,                       
+        CAST(description AS TEXT) AS description,           
+        CAST(price AS NUMERIC) AS price,                    
+        CAST(brand AS TEXT) AS brand                        
     FROM source s
 )
 

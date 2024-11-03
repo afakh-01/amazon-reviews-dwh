@@ -12,11 +12,11 @@ WITH date_series AS (
 date_dimension AS (
     SELECT
         TO_CHAR(date, 'YYYYMMDD')::INT AS date_key,   
-        date,                                         
-        EXTRACT(YEAR FROM date) AS year,
-        EXTRACT(MONTH FROM date) AS month,
-        EXTRACT(DAY FROM date) AS day,
-        EXTRACT(DOW FROM date) + 1 AS day_of_week
+        CAST(date AS DATE) AS date,                                        
+        CAST(EXTRACT(YEAR FROM date) AS INTEGER) AS year,
+        CAST(EXTRACT(MONTH FROM date) AS INTEGER) AS month,
+        CAST(EXTRACT(DAY FROM date) AS INTEGER) AS day,
+        CAST(EXTRACT(DOW FROM date) + 1 AS INTEGER) AS day_of_week
     FROM date_series
 )
 

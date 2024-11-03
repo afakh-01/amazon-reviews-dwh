@@ -10,15 +10,15 @@ WITH source AS (
 
 renamed AS (
     SELECT
-        "reviewerID" AS reviewer_id,
-        asin,
-        "reviewerName" AS reviewer_name,
-        helpful,
-        "reviewText" AS review_text,
-        overall AS rating,
-        summary,
-        "unixReviewTime" AS unix_review_time,
-        TO_DATE("reviewTime", 'MM DD, YYYY') AS review_date
+        CAST("reviewerID" AS TEXT) AS reviewer_id,                 
+        CAST(asin AS TEXT) AS asin,                                
+        CAST("reviewerName" AS TEXT) AS reviewer_name,             
+        CAST(helpful AS JSONB) AS helpful,                         
+        CAST("reviewText" AS TEXT) AS review_text,                 
+        CAST(overall AS NUMERIC) AS rating,                        
+        CAST(summary AS TEXT) AS summary,                          
+        CAST("unixReviewTime" AS INTEGER) AS unix_review_time,     
+        TO_DATE("reviewTime", 'MM DD, YYYY') AS review_date        
     FROM source s
 )
 
