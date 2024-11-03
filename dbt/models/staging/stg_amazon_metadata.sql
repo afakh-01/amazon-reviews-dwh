@@ -1,3 +1,8 @@
+{{ config(
+    materialized='view',
+    schema='staging'
+) }}
+
 WITH source AS (
     SELECT * 
     FROM {{ source('amazon', 'metadata_category_clothing_shoes_and_jewelry_only') }}

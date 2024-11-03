@@ -1,5 +1,6 @@
 {{ config(
-    materialized='view'
+    materialized='view',
+    schema='staging'
 ) }}
 
 WITH source AS (

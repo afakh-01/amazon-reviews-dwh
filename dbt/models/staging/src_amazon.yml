@@ -1,8 +1,8 @@
 version: 2
 
 sources:
-  - name: amazon               # Source name used in DBT models
-    schema: raw                # Schema where raw data is stored
+  - name: amazon               
+    schema: raw                
     tables:
       - name: reviews_clothing_shoes_and_jewelry_5
         description: "Raw Amazon reviews data for clothing, shoes, and jewelry."

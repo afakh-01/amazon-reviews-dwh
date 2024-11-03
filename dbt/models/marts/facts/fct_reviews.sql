@@ -1,5 +1,6 @@
 {{ config(
     materialized='incremental',
+    schema='marts',
     unique_key='review_key'
 ) }}
 
