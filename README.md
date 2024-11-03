@@ -62,6 +62,8 @@ Data quality checks ensure the reliability of insights:
 - **Null Value Checks**: Ensures critical fields (e.g. reviewer ID, product ID, review date) are non-null and within a range (e.g. rating).
 - **Uniqueness Constraints**: Verifies unique identifiers in dimension tables.
 - **Date Consistency**: Validate date values against the date dimension.
+- **Foreign Key Integrity**: Ensures referential integrity in fact tables by linking back to dimension tables.
+- **Automated Testing in DBT**: DBT is configured to run tests for these checks in both staging and dimensional models.
 
 ## Optimizations and Considerations
 
@@ -82,31 +84,39 @@ Data quality checks ensure the reliability of insights:
    git clone <repository-url>
    cd amazon-reviews-dwh
 
-2. **Run Docker Compose**: Build and start the containers:
+2. **Run Docker Compose**: 
+- Build and start the containers:
    ```bash
    docker-compose up --build -d
 
-3. **Access Airflow and Run the Pipeline:**:
+3. **Access Airflow and Run the Pipeline**:
 - Open the Airflow web interface at http://localhost:8080.
 - Trigger the DAG.
 - The DAG will ingest data, transform it using dbt, and load it into the staging and marts layers.
 
+4. **Access pgAdmin to Query the Data**:
+- Open **pgAdmin** by navigating to http://localhost:5050 in your browser.
+- Log in with the default credentials:
+    - **Email**: `admin@admin.com`
+    - **Password**: `admin`
+- **Add a New Server** to connect to the PostgreSQL database:
+    - Right-click on "Servers" in the pgAdmin dashboard and select **Create > Server**.
+    - In the **General** tab, name the server (e.g., "warehouse").
+    - Go to the **Connection** tab and enter the connection details:
+        - **Host**: `postgres`
+        - **Port**: `5432`
+        - **Username**: `postgres`
+        - **Password**: `postgres`
+    - Click **Save** to connect to the PostgreSQL database.
+- You can now access schemas (`raw`, `staging`, and `marts`) and tables directly through pgAdmin.
+- Use the **Query Tool** in pgAdmin to run SQL queries and explore the data.
 
 ## Future Enhancements / TODO
 
-Planned improvements to further optimize the data warehouse and enhance data quality:
+Planned improvements to further improve the solution:
 
-1. **Data Quality Checks**:
-   - Implement more comprehensive checks, including validation of categorical values and cross-referencing data consistency across tables.
-
-2. **Column Naming Consistency**:
-   - Standardize column names for better readability and alignment with best practices (e.g., converting camelCase to snake_case).
-
-3. **Documentation and Annotations**:
-   - Add thorough documentation for dbt models.
-
-4. **Performance Tuning**:
+1. **Performance Tuning**:
    - Explore indexing options on frequently queried columns for faster retrieval times.
 
-5. **Data Lineage**:
+2. **Data Lineage**:
    - Introduce lineage tracking to visualize data flow from source to DWH.
