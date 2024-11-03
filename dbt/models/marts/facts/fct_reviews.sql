@@ -25,7 +25,7 @@ review_with_fk AS (
         CAST(d.date_key AS INTEGER) AS review_date_key,          
         CAST(r.rating AS NUMERIC) AS rating                                
     FROM source_data r
-    LEFT JOIN {{ ref('dim_products') }} p ON r.asin = p.asin
+    LEFT JOIN {{ ref('dim_products') }} p ON r.asin = p.product_id
     LEFT JOIN {{ ref('dim_date') }} d ON r.review_date = d.date
 )
 

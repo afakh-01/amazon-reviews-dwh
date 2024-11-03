@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: fact_reviews
+    description: "Fact table for reviews, linking product reviews to dimensional data for analysis."
+    columns:
+      - name: review_key
+        description: "Primary surrogate key for each unique review record."
+        tests:
+          - unique
+          - not_null
+      - name: product_key
+        description: "Foreign key referencing the product dimension table."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_key
+      - name: review_date_key
+        description: "Foreign key to the date dimension, identifying when the review was posted."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: rating
+        description: "Rating given by the reviewer (1-5 scale)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]

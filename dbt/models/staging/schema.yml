@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_amazon_metadata
+    description: "Staging model for Amazon metadata."
+    columns:
+      - name: asin
+        tests:
+          - unique
+          - not_null
+      - name: metadata_id
+        tests:
+          - not_null
+
+  - name: stg_amazon_reviews
+    description: "Staging model for Amazon reviews."
+    columns:
+      - name: reviewer_id
+        tests:
+          - not_null
+      - name: review_date
+        tests:
+          - not_null
+      - name: rating
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
